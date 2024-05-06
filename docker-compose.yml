@@ -1,0 +1,60 @@
+version: '3.7'
+
+volumes:
+    logs:
+        driver: local
+    mariadb_data:
+        driver: local
+
+services:
+    slim:
+        build: .
+        working_dir: /var/www
+        command: php -S 0.0.0.0:3883 -t public
+        environment:
+            - docker=true
+            - DB_HOST=mariadb   # Assurez-vous que ceci correspond au nom du service MariaDB
+            - DB_PORT=3306
+        ports:
+            - "3883:3883"
+        volumes:
+            - .:/var/www
+            - logs:/var/www/logs
+        depends_on:
+            - mariadb
+        networks:
+            - civicalertapi
+
+    mariadb:
+        image: mariadb:latest
+        environment:
+            MYSQL_ROOT_PASSWORD: rootpassword
+            MYSQL_DATABASE: civicalert
+            MYSQL_USER: user
+            MYSQL_PASSWORD: password
+        ports:
+            - "3307:3306"
+        volumes:
+            - mariadb_data:/var/lib/mysql
+        restart: always
+        networks:
+            - civicalertapi
+
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        environment:
+            PMA_HOST: mariadb
+            PMA_PORT: 3306
+            MYSQL_ROOT_PASSWORD: rootpassword
+        ports:
+            - "3884:80"
+        depends_on:
+            - mariadb
+        restart: always
+        networks:
+            - civicalertapi
+
+networks:
+    civicalertapi:
+        driver: bridge
+        external: true

@@ -1,0 +1,1210 @@
+{
+    "openapi": "3.0.0",
+    "paths": {
+        "/agent/login": {
+            "post": {
+                "tags": [
+                    "Agent"
+                ],
+                "summary": "Connexion de l'agent",
+                "description": "Permet à un agent de se connecter en utilisant son email et son mot de passe",
+                "requestBody": {
+                    "description": "Email et mot de passe de l'agent",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "mail",
+                                    "mdp"
+                                ],
+                                "properties": {
+                                    "mail": {
+                                        "type": "string",
+                                        "example": "agent@example.com"
+                                    },
+                                    "mdp": {
+                                        "type": "string",
+                                        "example": "motdepasseAgent"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Connexion réussie",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "idAgent": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "nom": {
+                                            "type": "string",
+                                            "example": "Doe"
+                                        },
+                                        "prenom": {
+                                            "type": "string",
+                                            "example": "John"
+                                        },
+                                        "tel": {
+                                            "type": "string",
+                                            "example": "0123456789"
+                                        },
+                                        "pseudo": {
+                                            "type": "string",
+                                            "example": "agentDoe"
+                                        },
+                                        "token": {
+                                            "type": "string",
+                                            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Identifiants incorrects",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "code": {
+                                            "type": "string",
+                                            "example": "auth_failed"
+                                        },
+                                        "erreur": {
+                                            "type": "string",
+                                            "example": "Les identifiants fournis sont incorrects."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/agent/inscription": {
+            "post": {
+                "tags": [
+                    "Agent"
+                ],
+                "summary": "Inscription d'un nouvel agent",
+                "description": "Permet à un nouvel agent de s'inscrire dans le système",
+                "requestBody": {
+                    "description": "Informations nécessaires pour l'inscription de l'agent",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "pseudo",
+                                    "mail",
+                                    "mdp",
+                                    "nom",
+                                    "prenom",
+                                    "tel"
+                                ],
+                                "properties": {
+                                    "pseudo": {
+                                        "type": "string",
+                                        "example": "agentPseudo"
+                                    },
+                                    "mail": {
+                                        "type": "string",
+                                        "example": "agent@example.com"
+                                    },
+                                    "mdp": {
+                                        "type": "string",
+                                        "example": "motdepasse"
+                                    },
+                                    "nom": {
+                                        "type": "string",
+                                        "example": "Doe"
+                                    },
+                                    "prenom": {
+                                        "type": "string",
+                                        "example": "John"
+                                    },
+                                    "tel": {
+                                        "type": "string",
+                                        "example": "0123456789"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Agent inscrit avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id_agent": {
+                                            "type": "integer",
+                                            "example": 123
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Mauvaise requête",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "code": {
+                                            "type": "string",
+                                            "example": "ERREUR"
+                                        },
+                                        "erreur": {
+                                            "type": "string",
+                                            "example": "Ce pseudo est déjà pris"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erreur serveur",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "code": {
+                                            "type": "string",
+                                            "example": "ERREUR"
+                                        },
+                                        "erreur": {
+                                            "type": "string",
+                                            "example": "Échec de l'inscription"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/agent/modification": {
+            "put": {
+                "tags": [
+                    "Agent"
+                ],
+                "summary": "Mise à jour du profil de l'agent",
+                "description": "Permet à un agent de mettre à jour son profil",
+                "requestBody": {
+                    "description": "Données pour la mise à jour du profil de l'agent",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [],
+                                "properties": {
+                                    "mail": {
+                                        "type": "string",
+                                        "example": "agent@example.com"
+                                    },
+                                    "tel": {
+                                        "type": "string",
+                                        "example": "0123456789"
+                                    },
+                                    "pseudo": {
+                                        "type": "string",
+                                        "example": "agentPseudo"
+                                    },
+                                    "mdp": {
+                                        "type": "string",
+                                        "example": "nouveauMotDePasseAgent"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Profil de l'agent mis à jour avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "statuts": {
+                                            "type": "string",
+                                            "example": "ok"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Mauvaise requête",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "code": {
+                                            "type": "string",
+                                            "example": "ERREUR"
+                                        },
+                                        "erreur": {
+                                            "type": "string",
+                                            "example": "Aucune donnée à modifier."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erreur serveur",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "code": {
+                                            "type": "string",
+                                            "example": "ERREUR"
+                                        },
+                                        "erreur": {
+                                            "type": "string",
+                                            "example": "Message d'erreur"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/inscription": {
+            "post": {
+                "tags": [
+                    "Citoyen"
+                ],
+                "summary": "Inscription d'un nouveau citoyen",
+                "description": "Permet à un nouveau citoyen de s'inscrire dans le système",
+                "requestBody": {
+                    "description": "Informations nécessaires pour l'inscription du citoyen",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "pseudo",
+                                    "mail",
+                                    "mdp",
+                                    "nom",
+                                    "prenom",
+                                    "tel"
+                                ],
+                                "properties": {
+                                    "pseudo": {
+                                        "type": "string",
+                                        "example": "citoyenPseudo"
+                                    },
+                                    "mail": {
+                                        "type": "string",
+                                        "example": "citoyen@example.com"
+                                    },
+                                    "mdp": {
+                                        "type": "string",
+                                        "example": "motdepasse"
+                                    },
+                                    "nom": {
+                                        "type": "string",
+                                        "example": "Doe"
+                                    },
+                                    "prenom": {
+                                        "type": "string",
+                                        "example": "John"
+                                    },
+                                    "tel": {
+                                        "type": "string",
+                                        "example": "0123456789"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Citoyen inscrit avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "idCitoyen": {
+                                            "type": "integer",
+                                            "example": 123
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Mauvaise requête",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "code": {
+                                            "type": "string",
+                                            "example": "ERREUR"
+                                        },
+                                        "erreur": {
+                                            "type": "string",
+                                            "example": "Ce pseudo est déjà pris ou Cette adresse e-mail est déjà enregistrée"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erreur serveur",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "code": {
+                                            "type": "string",
+                                            "example": "ERREUR"
+                                        },
+                                        "erreur": {
+                                            "type": "string",
+                                            "example": "Échec de l'inscription"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/citoyen/login": {
+            "post": {
+                "tags": [
+                    "Citoyen"
+                ],
+                "summary": "Connexion du citoyen",
+                "description": "Permet à un citoyen de se connecter en utilisant son email et son mot de passe",
+                "requestBody": {
+                    "description": "Email et mot de passe du citoyen",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "mail",
+                                    "mdp"
+                                ],
+                                "properties": {
+                                    "mail": {
+                                        "type": "string",
+                                        "example": "citoyen@example.com"
+                                    },
+                                    "mdp": {
+                                        "type": "string",
+                                        "example": "motdepasseCitoyen"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Connexion réussie",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "idCitoyen": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "nom": {
+                                            "type": "string",
+                                            "example": "Doe"
+                                        },
+                                        "prenom": {
+                                            "type": "string",
+                                            "example": "John"
+                                        },
+                                        "tel": {
+                                            "type": "string",
+                                            "example": "0123456789"
+                                        },
+                                        "pseudo": {
+                                            "type": "string",
+                                            "example": "citoyenDoe"
+                                        },
+                                        "token": {
+                                            "type": "string",
+                                            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Identifiants incorrects",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "code": {
+                                            "type": "string",
+                                            "example": "auth_failed"
+                                        },
+                                        "erreur": {
+                                            "type": "string",
+                                            "example": "Les identifiants fournis sont incorrects."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/confirmer/{id}": {
+            "post": {
+                "tags": [
+                    "Incidents"
+                ],
+                "summary": "Confirme un incident",
+                "description": "Permet à un utilisateur authentifié de confirmer un incident spécifique",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de l'incident à confirmer",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Incident confirmé avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "statuts": {
+                                            "type": "string",
+                                            "example": "ok"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Non autorisé",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "code": {
+                                            "type": "string",
+                                            "example": "UNAUTHORIZED"
+                                        },
+                                        "erreur": {
+                                            "type": "string",
+                                            "example": "Vous devez être connecté pour confirmer un incident."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Incident non trouvé",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "code": {
+                                            "type": "string",
+                                            "example": "NOT_FOUND"
+                                        },
+                                        "erreur": {
+                                            "type": "string",
+                                            "example": "Incident non trouvé."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erreur serveur",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "code": {
+                                            "type": "string",
+                                            "example": "ERREUR"
+                                        },
+                                        "erreur": {
+                                            "type": "string",
+                                            "example": "Une erreur est survenue lors de la confirmation de l'incident."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/declarerIncident": {
+            "post": {
+                "tags": [
+                    "Incidents"
+                ],
+                "summary": "Déclare un nouvel incident",
+                "description": "Permet à un utilisateur authentifié de déclarer un nouvel incident",
+                "requestBody": {
+                    "description": "Données de l'incident à déclarer",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "titre",
+                                    "description",
+                                    "latitude",
+                                    "longitude",
+                                    "idType"
+                                ],
+                                "properties": {
+                                    "titre": {
+                                        "type": "string",
+                                        "example": "Panne de lumière"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Les lumières de la rue sont toutes éteintes"
+                                    },
+                                    "latitude": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 48.8566
+                                    },
+                                    "longitude": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 2.3522
+                                    },
+                                    "idType": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "photo": {
+                                        "type": "string",
+                                        "example": "data:image/png;base64,..."
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Incident déclaré avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "idIncident": {
+                                            "type": "integer",
+                                            "example": 123
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Non autorisé",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "code": {
+                                            "type": "string",
+                                            "example": "UNAUTHORIZED"
+                                        },
+                                        "erreur": {
+                                            "type": "string",
+                                            "example": "Vous devez être connecté pour déclarer un incident."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erreur serveur",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "code": {
+                                            "type": "string",
+                                            "example": "ERREUR"
+                                        },
+                                        "erreur": {
+                                            "type": "string",
+                                            "example": "Message d'erreur"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/infoIncident/{id}": {
+            "get": {
+                "tags": [
+                    "Incidents"
+                ],
+                "summary": "Récupère les détails d'un incident spécifique",
+                "description": "Retourne les détails d'un incident basé sur son ID",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de l'incident",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Détails de l'incident",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Incident"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Incident non trouvé",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "code": {
+                                            "type": "string",
+                                            "example": "NOT_FOUND"
+                                        },
+                                        "erreur": {
+                                            "type": "string",
+                                            "example": "Incident non trouvé."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erreur serveur",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "code": {
+                                            "type": "string",
+                                            "example": "ERREUR"
+                                        },
+                                        "erreur": {
+                                            "type": "string",
+                                            "example": "Message d'erreur"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/listeIncidents": {
+            "get": {
+                "tags": [
+                    "Incidents"
+                ],
+                "summary": "Récupère la liste de tous les incidents",
+                "description": "Retourne une liste de tous les incidents enregistrés dans la base de données",
+                "responses": {
+                    "200": {
+                        "description": "Liste des incidents récupérée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Incident"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erreur serveur",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Une erreur est survenue"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/supprimerIncident/{id}": {
+            "delete": {
+                "tags": [
+                    "Incidents"
+                ],
+                "summary": "Supprime un incident",
+                "description": "Supprime un incident spécifique si l'utilisateur est autorisé à le faire",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de l'incident à supprimer",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Incident supprimé avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "SUCCESS": {
+                                            "type": "string",
+                                            "example": "Incident supprimé avec succès."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Non autorisé",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "ERROR": {
+                                            "type": "string",
+                                            "example": "Vous devez être connecté"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Interdit",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "ERROR": {
+                                            "type": "string",
+                                            "example": "Vous ne pouvez pas supprimer cet incident"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erreur serveur",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "ERROR": {
+                                            "type": "string",
+                                            "example": "Échec"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/traiterIncident": {
+            "put": {
+                "tags": [
+                    "Incidents"
+                ],
+                "summary": "Traite un incident",
+                "description": "Permet à un agent d'assigner un incident à lui-même pour traitement",
+                "requestBody": {
+                    "description": "Identifiants de l'incident et de l'agent",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "idIncident",
+                                    "idAgent"
+                                ],
+                                "properties": {
+                                    "idIncident": {
+                                        "type": "integer",
+                                        "example": 123
+                                    },
+                                    "idAgent": {
+                                        "type": "integer",
+                                        "example": 456
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Incident traité avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "statuts": {
+                                            "type": "string",
+                                            "example": "ok"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Mauvaise requête",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "code": {
+                                            "type": "string",
+                                            "example": "ERREUR"
+                                        },
+                                        "erreur": {
+                                            "type": "string",
+                                            "example": "Incident déjà pris en charge ou non existant"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erreur serveur",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "code": {
+                                            "type": "string",
+                                            "example": "ERREUR"
+                                        },
+                                        "erreur": {
+                                            "type": "string",
+                                            "example": "Erreur lors du traitement de l'incident"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/login": {
+            "post": {
+                "tags": [
+                    "Authentification"
+                ],
+                "summary": "Connexion utilisateur",
+                "description": "Permet à un utilisateur de se connecter en utilisant son email et son mot de passe",
+                "requestBody": {
+                    "description": "Email et mot de passe de l'utilisateur",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "mail",
+                                    "mdp"
+                                ],
+                                "properties": {
+                                    "mail": {
+                                        "type": "string",
+                                        "example": "user@example.com"
+                                    },
+                                    "mdp": {
+                                        "type": "string",
+                                        "example": "motdepasse123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Connexion réussie",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "idCitoyen": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "nom": {
+                                            "type": "string",
+                                            "example": "Doe"
+                                        },
+                                        "prenom": {
+                                            "type": "string",
+                                            "example": "John"
+                                        },
+                                        "tel": {
+                                            "type": "string",
+                                            "example": "0123456789"
+                                        },
+                                        "pseudo": {
+                                            "type": "string",
+                                            "example": "johndoe"
+                                        },
+                                        "token": {
+                                            "type": "string",
+                                            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Identifiants incorrects",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "code": {
+                                            "type": "string",
+                                            "example": "auth_failed"
+                                        },
+                                        "erreur": {
+                                            "type": "string",
+                                            "example": "Les identifiants fournis sont incorrects."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/modification": {
+            "put": {
+                "tags": [
+                    "Utilisateur"
+                ],
+                "summary": "Mise à jour du profil utilisateur",
+                "description": "Permet à un utilisateur de mettre à jour son profil",
+                "requestBody": {
+                    "description": "Données pour la mise à jour du profil",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [],
+                                "properties": {
+                                    "mail": {
+                                        "type": "string",
+                                        "example": "user@example.com"
+                                    },
+                                    "tel": {
+                                        "type": "string",
+                                        "example": "0123456789"
+                                    },
+                                    "pseudo": {
+                                        "type": "string",
+                                        "example": "nouveauPseudo"
+                                    },
+                                    "mdp": {
+                                        "type": "string",
+                                        "example": "nouveauMotDePasse"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Profil mis à jour avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "statuts": {
+                                            "type": "string",
+                                            "example": "ok"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Mauvaise requête",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "code": {
+                                            "type": "string",
+                                            "example": "ERREUR"
+                                        },
+                                        "erreur": {
+                                            "type": "string",
+                                            "example": "Aucune donnée à modifier."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erreur serveur",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "code": {
+                                            "type": "string",
+                                            "example": "ERREUR"
+                                        },
+                                        "erreur": {
+                                            "type": "string",
+                                            "example": "Message d'erreur"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    }
+}
