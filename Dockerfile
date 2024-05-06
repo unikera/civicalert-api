@@ -1,16 +1,14 @@
 # Utiliser une image de base officielle PHP avec Apache
 FROM php:8.1-apache
 
-# Afficher la version PHP pour vérification
-RUN php -v
-
-# Installer les dépendances système, y compris le client MySQL, git et les outils nécessaires pour le fonctionnement de certaines extensions PHP et Composer
+# Installer les dépendances système nécessaires pour le fonctionnement de certaines extensions PHP et Composer
 RUN apt-get update && apt-get install -y \
     default-mysql-client \
     git \
     unzip \
     libzip-dev \
-    && rm -rf /var/lib/apt/lists/*
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* 
 
 # Installer les extensions PHP requises
 RUN docker-php-ext-install pdo_mysql zip
@@ -30,7 +28,10 @@ WORKDIR /var/www
 # Copier les fichiers de l'application dans l'image
 COPY . /var/www
 
-# Exécuter Composer en tant qu'utilisateur non root pour éviter les avertissements et installer les dépendances
+# Assurer que le fichier de configuration de Composer est présent avant de lancer install
+RUN if [ ! -f /var/www/composer.json ]; then echo "Composer.json not found." && exit 1; fi
+
+# Exécuter Composer en tant qu'utilisateur www-data pour éviter les avertissements et installer les dépendances
 RUN composer install --no-dev --optimize-autoloader --no-interaction --no-progress
 
 # Changer les permissions du répertoire de l'application pour le serveur web
