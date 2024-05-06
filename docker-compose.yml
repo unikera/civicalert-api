@@ -5,6 +5,8 @@ volumes:
         driver: local
     mariadb_data:
         driver: local
+    vendor:
+        driver: local
 
 services:
     slim:
@@ -20,6 +22,7 @@ services:
         volumes:
             - .:/var/www
             - logs:/var/www/logs
+            - vendor:/var/www/vendor
         depends_on:
             - mariadb
         networks:
