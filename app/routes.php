@@ -18,6 +18,7 @@ use App\Application\Actions\Admin\ListIncidentActionAdmin;
 use App\Application\Actions\Admin\ListAgentActionAdmin;
 use App\Application\Actions\Citoyens\EditCitoyensAction;
 use App\Application\Actions\Citoyens\EditPassAction;
+use App\Application\Actions\Citoyens\InfosCitoyensAction;
 use App\Application\Actions\UpdateProfileAction;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -38,7 +39,8 @@ return function (App $app) {
 
     $app->post('/inscription', RegisterAction::class);
     $app->post('/login', LoginAction::class);
-    $app->post('/modification',UpdateProfileAction::class)->add(new JwtAuthenticationMiddleware());
+    // $app->post('/modification',UpdateProfileAction::class)->add(new JwtAuthenticationMiddleware());
+    $app->get('/infosCitoyen/{id}', InfosCitoyensAction::class);
     $app->post('/editPass', EditPassAction::class);
     $app->post('/editCitoyen', EditCitoyensAction::class);
     $app->post('/agent/inscription', RegisterAgentAction::class)->add(new JwtAuthenticationMiddleware());
