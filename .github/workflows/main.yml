@@ -23,6 +23,7 @@ jobs:
           ssh -o StrictHostKeyChecking=no m2etu@51.89.7.73 << 'EOF'
             ls
             cd /civicalert-api/
+            ls
             git pull
             docker-compose up --build -d slim
           EOF
