@@ -33,7 +33,7 @@ return function (App $app) {
     });
 
     $app->get('/', function (Request $request, Response $response) {
-        $response->getBody()->write('Bienvenue sur Civic Alert API !');
+        $response->getBody()->write('Bienvenue sur Civic Alert API ');
         return $response;
     });
 
