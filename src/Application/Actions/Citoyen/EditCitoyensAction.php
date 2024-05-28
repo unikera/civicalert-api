@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Application\Actions\Citoyens;
+namespace App\Application\Actions\Citoyen;
 use Slim\Psr7\Response;
 use Slim\Psr7\Request;
 use PDO;
