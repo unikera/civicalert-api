@@ -20,10 +20,13 @@ jobs:
 
       - name: Deploy to server
         run: |
-          ssh -o StrictHostKeyChecking=no m2etu@51.89.7.73 << 'EOF'
-            ls
-            cd /civicalert-api/
-            ls
-            git pull
+          ssh -o StrictHostKeyChecking=no -t m2etu@51.89.7.73 << 'EOF'
+            cd /home/m2etu/civicalert-api/
+            if [ -d .git ]; then
+              git pull
+            else
+              echo "Not a git repository"
+              exit 1
+            fi
             docker-compose up --build -d slim
           EOF
