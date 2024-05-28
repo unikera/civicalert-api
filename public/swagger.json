@@ -1104,6 +1104,328 @@
                 }
             }
         },
+        "/infosCitoyen/{id}": {
+            "get": {
+                "tags": [
+                    "Citoyen"
+                ],
+                "summary": "Récupère les informations d'un citoyen spécifique",
+                "description": "Retourne les détails d'un citoyen basé sur son ID.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "ID du citoyen",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Informations du citoyen récupérées avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "success": {
+                                            "type": "string",
+                                            "example": "Data retrieved successfully"
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "nom": {
+                                                    "type": "string",
+                                                    "example": "Doe"
+                                                },
+                                                "prenom": {
+                                                    "type": "string",
+                                                    "example": "John"
+                                                },
+                                                "pseudo": {
+                                                    "type": "string",
+                                                    "example": "johndoe"
+                                                },
+                                                "tel": {
+                                                    "type": "string",
+                                                    "example": "0123456789"
+                                                },
+                                                "mail": {
+                                                    "type": "string",
+                                                    "example": "john.doe@example.com"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Requête invalide, ID du citoyen nécessaire",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Citoyen ID is required"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Citoyen non trouvé",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Citoyen not found"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/editCitoyen": {
+            "post": {
+                "tags": [
+                    "Citoyen"
+                ],
+                "summary": "Mise à jour des informations d'un citoyen",
+                "description": "Permet à un administrateur ou au citoyen lui-même de mettre à jour ses informations.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "id",
+                                    "pseudo",
+                                    "nom",
+                                    "prenom",
+                                    "tel",
+                                    "mail"
+                                ],
+                                "properties": {
+                                    "id": {
+                                        "type": "integer",
+                                        "example": 123
+                                    },
+                                    "pseudo": {
+                                        "type": "string",
+                                        "example": "nouveauPseudo"
+                                    },
+                                    "nom": {
+                                        "type": "string",
+                                        "example": "Doe"
+                                    },
+                                    "prenom": {
+                                        "type": "string",
+                                        "example": "John"
+                                    },
+                                    "tel": {
+                                        "type": "string",
+                                        "example": "0123456789"
+                                    },
+                                    "mail": {
+                                        "type": "string",
+                                        "example": "john.doe@example.com"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "description": "Informations nécessaires pour mettre à jour le profil du citoyen"
+                },
+                "responses": {
+                    "200": {
+                        "description": "Informations du citoyen mises à jour avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "code": {
+                                            "type": "string",
+                                            "example": "OK"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Citoyen 123 mis à jour avec succès"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Requête invalide ou conflit de données (pseudo/email déjà utilisés)",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "code": {
+                                            "type": "string",
+                                            "example": "KO"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Champ manquant : [nom du champ] ou Le pseudo ou l'e-mail est déjà utilisé"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Citoyen non trouvé",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "code": {
+                                            "type": "string",
+                                            "example": "KO"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Citoyen non trouvé"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },        
+        "/editPass": {
+            "post": {
+                "tags": [
+                    "Citoyen"
+                ],
+                "summary": "Modification du mot de passe d'un citoyen",
+                "description": "Permet à un citoyen de mettre à jour son mot de passe existant.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "id",
+                                    "expass",
+                                    "newpass"
+                                ],
+                                "properties": {
+                                    "id": {
+                                        "type": "integer",
+                                        "example": 123
+                                    },
+                                    "expass": {
+                                        "type": "string",
+                                        "example": "ancienMotDePasse"
+                                    },
+                                    "newpass": {
+                                        "type": "string",
+                                        "example": "nouveauMotDePasse"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "description": "Données nécessaires pour la mise à jour du mot de passe"
+                },
+                "responses": {
+                    "200": {
+                        "description": "Mot de passe mis à jour avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "code": {
+                                            "type": "string",
+                                            "example": "OK"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Mot de passe mis à jour avec succès"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Requête invalide ou mot de passe actuel incorrect",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "code": {
+                                            "type": "string",
+                                            "example": "KO"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Champ manquant : [nom du champ] ou Le mot de passe actuel est incorrect"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Citoyen non trouvé",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "code": {
+                                            "type": "string",
+                                            "example": "KO"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Citoyen non trouvé"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },                
         "/modification": {
             "put": {
                 "tags": [

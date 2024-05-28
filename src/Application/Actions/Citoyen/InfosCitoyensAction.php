@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Application\Actions\Citoyens;
+namespace App\Application\Actions\Citoyen;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use PDO;
